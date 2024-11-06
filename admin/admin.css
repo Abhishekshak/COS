@@ -1,0 +1,172 @@
+/*
+    auther: abhishek;
+    theme: COS admin;
+    version: 1.0
+*/
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper{
+    /* border: 1px solid black; */
+    padding: 1%;
+    width: 80%;
+    margin: 0 auto;
+
+}
+
+.text-center{
+    text-align: center;
+}
+
+.clearfix{
+    float: none;
+    clear: both;
+}
+
+.tbl-full{
+    width: 100%;
+}
+.tbl-30{
+    width: 30%;
+}
+
+table tr th{
+    border-bottom: 1px solid black;
+    padding: 1%;
+    text-align: left;
+}
+
+table tr td{
+    padding: 1%;
+}
+
+.btn-primary{
+    background-color: #2e86de;
+    padding: 1%;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.btn-primary:hover{
+    background-color: #341f97;
+}
+.btn-secondary{
+    background-color: #576574;
+    padding: 1%;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.btn-secondary:hover{
+    background-color: #222f3e;
+}
+.btn-danger{
+    background-color: #ff6b6b;
+    padding: 1%;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+.btn-danger:hover{
+    background-color: #ee5253;
+}
+/*menu footer */
+
+.menu{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+.menu ul{
+    list-style-type: none;
+}
+.menu li{
+    display: inline;
+    padding: 1%;
+}
+.menu ul li a{
+    text-decoration: none;
+    font-weight: bold;
+}
+/*maincontent css*/
+.main-content{
+    /* margin: 1% 0; */
+    background-color: #9ed4c4;
+    padding: 3% 0;
+}
+
+.col-4{
+    width: 18%;
+    background-color: white;
+    margin: 1%;
+    padding: 2%;
+    float: left;
+
+}
+
+.success{
+    color: rgb(42, 161, 42);
+}
+.error{
+    color: red;
+}
+
+
+
+
+/*css footer */
+
+.footer{
+    background-color: #105240;
+    color: white;
+}
+
+
+/* login css */
+.login{
+    width: 30%;
+    margin: 9% auto;
+    padding: 80px 20px ;
+    background-color: #105240;
+    box-shadow: 1px solid black;
+    border-radius: 3%;
+}
+.text-white{
+    color: white;
+}
+.inputs{
+    margin: 20px;
+}
+.inputs i{
+    position: relative;
+    /* top: 5px; */
+    left: 20px;
+}
+.inputs input{
+    padding-left: 40px;
+    width: 80%;
+    height: 30px;
+    background-color: rgb(184, 233, 240);
+    border: none; 
+}
+input::placeholder{
+    color: black;
+
+}
+.btn{
+    border-radius: 30px;
+    border: none;
+    padding: 10px 50px 10px 50px;
+    background-color: rgb(90, 184, 184);
+    color: white;
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.btn:hover{
+    padding: 10px 60px 10px 60PX;
+    background-color: rgb(75, 148, 148);
+}
