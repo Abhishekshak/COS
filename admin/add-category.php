@@ -113,11 +113,11 @@
 
                     if($res ==TRUE){
                         //category added
-                        $_SESSION['add'] = "<div class = 'success'>Category Added Sucessfully.</div";
+                        $_SESSION['add'] = "<div class = 'success'>Category Added Sucessfully.</div>";
                         header('location:'.HOMEURL.'admin/manage-category.php');
                     }else{
                         //category not added
-                        $_SESSION['add'] = "<div class = 'error'>Failed to Category.</div";
+                        $_SESSION['add'] = "<div class = 'error'>Failed to Category.</div>";
                         header('location:'.HOMEURL.'admin/add-category.php');
                     }
                 } 
