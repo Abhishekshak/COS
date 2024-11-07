@@ -60,7 +60,7 @@
                             <td><?php echo $featured; ?></td>
                             <td><?php echo $active; ?></td>
                             <td><a href="#" class="btn-secondary">Update Cake</a>
-                                <a href="#" class="btn-danger">Delete Cake</a>
+                                <a href="<?php echo HOMEURL;?>admin/delete-cake.php" class="btn-danger">Delete Cake</a>
                             </td>
                         </tr>
                         <?php
