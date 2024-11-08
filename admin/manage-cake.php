@@ -12,6 +12,14 @@
                     echo $_SESSION['add'];
                     unset($_SESSION['add']);
                     }
+                    if(isset($_SESSION['remove'])){
+                        echo $_SESSION['remove'];
+                        unset($_SESSION['remove']);
+                    }
+                    if(isset($_SESSION['delete'])){
+                        echo $_SESSION['delete'];
+                        unset($_SESSION['delete']);
+                    }
             ?>
             <br>
             <table class= "tbl-full">
@@ -60,7 +68,7 @@
                             <td><?php echo $featured; ?></td>
                             <td><?php echo $active; ?></td>
                             <td><a href="#" class="btn-secondary">Update Cake</a>
-                                <a href="<?php echo HOMEURL;?>admin/delete-cake.php" class="btn-danger">Delete Cake</a>
+                                <a href="<?php echo HOMEURL;?>admin/delete-cake.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>" class="btn-danger">Delete Cake</a>
                             </td>
                         </tr>
                         <?php
