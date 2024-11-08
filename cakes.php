@@ -3,7 +3,7 @@
 <head>
     <title>Cakes - Cake Ordering System</title>
     <link rel="stylesheet" href = "style.css">
-    <?php include 'header.php'; ?>
+    <?php include 'frontend-partials/header.php'; ?>
     
 </head>
 <body>
@@ -71,7 +71,7 @@
         </section>
     </main>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'frontend-partials/footer.php'; ?>
 
 </body>
 </html>

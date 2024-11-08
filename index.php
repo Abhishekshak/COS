@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <?php include 'header.php'; ?>
+    <?php include 'frontend-partials/header.php'; ?>
 
     <main>
         <section>
@@ -52,7 +52,7 @@
         </section>
     </main>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'frontend-partials/footer.php'; ?>
 
 </body>
 </html>
