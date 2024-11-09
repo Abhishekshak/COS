@@ -76,7 +76,7 @@ footer {
     border-radius: 5px;
     background-color: #fff; /* White background */
     text-align: center; /* Center text inside the item */
-    height: 400px; /* Set a fixed height for the cake item */
+    height: 450px; /* Set a fixed height for the cake item */
 }
 
 .cake-item img {
@@ -91,9 +91,14 @@ footer {
     padding: 1em;
     font-size: x-large;
 }
+.cake-item h5{
+    padding: 1em;
+    font-size: small;
+}
 button {
     background-color: var(--secondary-color);
-    color: #fff;
+    font-weight: bold;
+    color: black;
     padding: 0.5em 1em;
     border: none;
     border-radius: 5px;
@@ -102,7 +107,8 @@ button {
 }
 
 button:hover {
-    background-color: #0b0b0b; /* Darker shade on hover */
+    background-color: var(--primary-color); /* Darker shade on hover */
+    color: white;
 }
 
 /* this css is for index*/

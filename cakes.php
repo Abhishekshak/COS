@@ -13,60 +13,43 @@
         <section>
             <h2>Our Cakes</h2>
             <div class="cake-grid">
-                <div class="cake-item">
-                    <img src="img/cake4.jpg" alt="Chocolate Cake">
-                    <h3>Chocolate Cake</h3>
-                    <p>Price: $25.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/cake2.jpg" alt="Vanilla Cake">
-                    <h3>Vanilla Cake</h3>
-                    <p>Price: $20.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/cake3.jpg" alt="Red Velvet Cake">
-                    <h3>Red Velvet Cake</h3>
-                    <p>Price: $30.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/lemon.jpg" alt="Lemon Cake">
-                    <h3>Lemon Cake</h3>
-                    <p>Price: $22.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/carrot.jpg" alt="Carrot Cake">
-                    <h3>Carrot Cake</h3>
-                    <p>Price: $28.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/black.jpg" alt="Black Forest Cake">
-                    <h3>Black Forest Cake</h3>
-                    <p>Price: $35.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="strawberry-cake.jpg" alt="Strawberry Cake">
-                    <h3>Strawberry Cake</h3>
-                    <p>Price: $27.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="cheesecake.jpg" alt="Cheesecake">
-                    <h3>Cheesecake</h3>
-                    <p>Price: $32.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="fruit-cake.jpg" alt="Fruit Cake">
-                    <h3>Fruit Cake</h3>
-                    <p>Price: $24.00</p>
-                    <button>Add to Cart</button>
-                </div>
+                <?php
+                    //cake that are active to be displayed 
+                    $sql = "SELECT *FROM tbl_cake where active = 'Yes'";
+                    $res = mysqli_query($conn,$sql);
+                    $count = mysqli_num_rows($res);
+                    if($count >0){
+                        while($row = mysqli_fetch_assoc($res)){
+                            $id = $row['id'];
+                            $title = $row['title'];
+                            $description = $row['description'];
+                            $price = $row['price'];
+                            $image_name = $row['image_name'];
+                            ?>
+                                <div class="cake-item">
+                                    <?php
+                                        if($image_name == ""){
+                                            //image not available
+                                            echo "<div class = 'error'>Image Not Available</div>";
+                                        }else{
+                                            ?>
+                                                <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Vanilla Cake">
+                                            <?php
+                                        }
+                                    ?>
+                                    
+                                    <h3><?php echo $title; ?></h3>
+                                    <h5><?php echo $description; ?></h5>
+                                    <h4>Price: $<?php echo $price; ?></h4>
+                                    <button>Add to Cart</button>
+                                </div>
+                            <?php
+                        }
+                    }else{
+                        echo "<div class = 'error'>No Cakes Available.</div>";
+                    }
+                    
+                ?>
             </div>
         </section>
     </main>

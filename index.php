@@ -24,30 +24,45 @@
             <h1>FEATURED PRODUCTS</h1>
 
             <div class="cake-grid">
-                <div class="cake-item">
-                    <img src="img/cake2.jpg" alt="Vanilla Cake">
-                    <h3>Vanilla Cake</h3>
-                    <p>Price: $20.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/lemon.jpg" alt="Lemon Cake">
-                    <h3>Lemon Cake</h3>
-                    <p>Price: $22.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/carrot.jpg" alt="Carrot Cake">
-                    <h3>Carrot Cake</h3>
-                    <p>Price: $28.00</p>
-                    <button>Add to Cart</button>
-                </div>
-                <div class="cake-item">
-                    <img src="img/black.jpg" alt="Black Forest Cake">
-                    <h3>Black Forest Cake</h3>
-                    <p>Price: $35.00</p>
-                    <button>Add to Cart</button>
-                </div>
+                <?php
+                    //cake that are active and featured to be displayed in homescreen 
+                    $sql = "SELECT *FROM tbl_cake WHERE active = 'Yes' AND featured = 'Yes' LIMIT 6";
+                    $res = mysqli_query($conn,$sql);
+                    $count = mysqli_num_rows($res);
+                    if($count >0){
+                        while($row =mysqli_fetch_assoc($res)){
+                            //getting all the values
+                            $id = $row['id'];
+                            $title = $row['title'];
+                            $description = $row['description'];
+                            $price = $row['price'];
+                            $image_name = $row['image_name'];
+                            ?>
+                                <div class="cake-item">
+                                    <?php
+                                        if($image_name == ""){
+                                            //image not available
+                                            echo "<div class = 'error'>Image Not Available</div>";
+                                        }else{
+                                            ?>
+                                                <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Vanilla Cake">
+                                            <?php
+                                        }
+                                    ?>
+                                    
+                                    <h3><?php echo $title; ?></h3>
+                                    <h5><?php echo $description; ?></h5>
+                                    <h4>Price: $<?php echo $price; ?></h4>
+                                    <button>Add to Cart</button>
+                                </div>
+                            <?php
+                        }
+                    }else{
+                        echo "<div class = 'error'>No Cakes available</div>";
+                    }
+
+                ?>
+
             </div>
         </section>
     </main>
