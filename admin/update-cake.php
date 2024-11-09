@@ -41,7 +41,7 @@
                     <tr>
                         <td>Description: </td>
                         <td>
-                            <textarea name="description"><?php echo isset($description) ? $description : ''; ?></textarea>
+                            <textarea name="description" cols="30" rows="5"><?php echo isset($description) ? $description : ''; ?></textarea>
                         </td>
                     </tr>
                     <tr>
@@ -71,7 +71,7 @@
                     <tr>
                         <td>Featured: </td>
                         <td><input <?php if($featured == "Yes"){echo "checked";} ?> type="radio" name= "featured" value = "Yes">Yes
-                        <input <?php if($featured == "No"){echo "unchecked";} ?> type="radio" name= "featured" value = "No">No
+                        <input <?php if($featured == "No"){echo "checked";} ?> type="radio" name= "featured" value = "No">No
                     </tr>
                     <tr>
                         <td>Active: </td>
