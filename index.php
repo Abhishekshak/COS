@@ -1,3 +1,16 @@
+<?php
+include('config/constants.php');
+// // Check if the user is logged in
+// if (!isset($_SESSION['u_name'])) {
+//     // If not logged in, redirect to login page
+//     header("Location: login.php");
+//     exit();
+// }
+
+// // Your protected content here
+// echo "Welcome, " . htmlspecialchars($_SESSION['u_name']) . "!";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +18,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Cake Ordering System</title>
     <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
 
