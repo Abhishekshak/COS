@@ -1,14 +1,8 @@
 <?php
 include('config/constants.php');
-// // Check if the user is logged in
-// if (!isset($_SESSION['u_name'])) {
-//     // If not logged in, redirect to login page
-//     header("Location: login.php");
-//     exit();
-// }
 
-// // Your protected content here
-// echo "Welcome, " . htmlspecialchars($_SESSION['u_name']) . "!";
+// Check if the user is logged in
+$is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwise
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +12,6 @@ include('config/constants.php');
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Cake Ordering System</title>
     <link rel="stylesheet" href="style.css">
-    
 </head>
 <body>
 
@@ -31,52 +24,54 @@ include('config/constants.php');
                 <input type="text" class="search-bar" placeholder="Browse for cakes">
                 <button class="search-button">Search</button>
             </div>
-
-            
         </section>
+
         <section>
             <h1>FEATURED PRODUCTS</h1>
 
             <div class="cake-grid">
                 <?php
-                    //cake that are active and featured to be displayed in homescreen 
-                    $sql = "SELECT *FROM tbl_cake WHERE active = 'Yes' AND featured = 'Yes' LIMIT 6";
-                    $res = mysqli_query($conn,$sql);
+                    // Fetch active and featured cakes
+                    $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' AND c_featured = 'Yes' LIMIT 6";
+                    $res = mysqli_query($conn, $sql);
                     $count = mysqli_num_rows($res);
-                    if($count >0){
-                        while($row =mysqli_fetch_assoc($res)){
-                            //getting all the values
-                            $id = $row['id'];
-                            $title = $row['title'];
-                            $description = $row['description'];
-                            $price = $row['price'];
-                            $image_name = $row['image_name'];
-                            ?>
-                                <div class="cake-item">
-                                    <?php
-                                        if($image_name == ""){
-                                            //image not available
-                                            echo "<div class = 'error'>Image Not Available</div>";
-                                        }else{
-                                            ?>
-                                                <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Vanilla Cake">
-                                            <?php
-                                        }
-                                    ?>
-                                    
-                                    <h3><?php echo $title; ?></h3>
-                                    <h5><?php echo $description; ?></h5>
-                                    <h4>Price: $<?php echo $price; ?></h4>
-                                    <button>Add to Cart</button>
-                                </div>
-                            <?php
-                        }
-                    }else{
-                        echo "<div class = 'error'>No Cakes available</div>";
-                    }
 
+                    if ($count > 0) {
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            // Fetch cake details
+                            $id = $row['c_id'];  // Updated column name
+                            $title = $row['c_name'];  // Updated column name
+                            $description = $row['c_description'];  // Updated column name
+                            $price = $row['c_price'];  // Updated column name
+                            $image_name = $row['c_image_name'];  // Updated column name
                 ?>
+                            <div class="cake-item">
+                                <?php
+                                    // Handle image not available case
+                                    if ($image_name == "") {
+                                        echo "<div class='error'>Image Not Available</div>";
+                                    } else {
+                                ?>
+                                        <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Cake Image">
+                                <?php
+                                    }
+                                ?>
 
+                                <h3><?php echo htmlspecialchars($title); ?></h3>
+                                <h5><?php echo htmlspecialchars($description); ?></h5>
+                                <h4>Price: $<?php echo htmlspecialchars($price); ?></h4>
+
+                                <!-- Order Now Button -->
+                                <button onclick="window.location.href='<?php echo $is_logged_in ? 'order.php?c_id=' . $id : 'login.php'; ?>'">
+                                    Order Now
+                                </button>
+                            </div>
+                <?php
+                        }
+                    } else {
+                        echo "<div class='error'>No Cakes available</div>";
+                    }
+                ?>
             </div>
         </section>
     </main>

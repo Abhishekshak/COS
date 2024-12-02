@@ -1,57 +1,63 @@
 <?php
     include('config/constants.php');
+    // Check if the user is logged in
+    $is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwise
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Cakes - Cake Ordering System</title>
-    <link rel="stylesheet" href = "style.css">
+    <link rel="stylesheet" href="style.css">
     <?php include 'frontend-partials/header.php'; ?>
-    
 </head>
 <body>
-
 
     <main>
         <section>
             <h2>Our Cakes</h2>
             <div class="cake-grid">
                 <?php
-                    //cake that are active to be displayed 
-                    $sql = "SELECT *FROM tbl_cake where active = 'Yes'";
-                    $res = mysqli_query($conn,$sql);
+                    // Fetch cakes that are active to be displayed
+                    $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes'";
+                    $res = mysqli_query($conn, $sql);
                     $count = mysqli_num_rows($res);
-                    if($count >0){
-                        while($row = mysqli_fetch_assoc($res)){
-                            $id = $row['id'];
-                            $title = $row['title'];
-                            $description = $row['description'];
-                            $price = $row['price'];
-                            $image_name = $row['image_name'];
-                            ?>
-                                <div class="cake-item">
-                                    <?php
-                                        if($image_name == ""){
-                                            //image not available
-                                            echo "<div class = 'error'>Image Not Available</div>";
-                                        }else{
-                                            ?>
-                                                <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Vanilla Cake">
-                                            <?php
-                                        }
-                                    ?>
-                                    
-                                    <h3><?php echo $title; ?></h3>
-                                    <h5><?php echo $description; ?></h5>
-                                    <h4>Price: $<?php echo $price; ?></h4>
-                                    <button>Add to Cart</button>
-                                </div>
-                            <?php
+                    if ($count > 0) {
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            // Fetch cake details
+                            $id = $row['c_id'];  // Updated column name
+                            $title = $row['c_name'];  // Updated column name
+                            $description = $row['c_description'];  // Updated column name
+                            $price = $row['c_price'];  // Updated column name
+                            $image_name = $row['c_image_name'];  // Updated column name
+                ?>
+                            <div class="cake-item">
+                                <?php
+                                    // Handle missing image
+                                    if ($image_name == "") {
+                                        echo "<div class='error'>Image Not Available</div>";
+                                    } else {
+                                ?>
+                                        <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Cake Image">
+                                <?php
+                                    }
+                                ?>
+
+                                <h3><?php echo htmlspecialchars($title); ?></h3>
+                                <h5><?php echo htmlspecialchars($description); ?></h5>
+                                <h4>Price: $<?php echo htmlspecialchars($price); ?></h4>
+                                
+                                <!-- Order Now Button -->
+                                <button onclick="window.location.href='<?php echo $is_logged_in ? 'order.php?c_id=' . $id : 'login.php'; ?>'">
+                                    Order Now
+                                </button>
+
+                            </div>
+                <?php
                         }
-                    }else{
-                        echo "<div class = 'error'>No Cakes Available.</div>";
+                    } else {
+                        echo "<div class='error'>No Cakes Available.</div>";
                     }
-                    
                 ?>
             </div>
         </section>

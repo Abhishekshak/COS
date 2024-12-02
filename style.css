@@ -152,6 +152,150 @@ button:hover {
     background-color: #105240; /* Darken button on hover */
 }
 
+.order-now{
+    text-decoration: none;
+    color: black;
+}
+
+
+/* order.php css begins */
+.order-container {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.order-details, .order-form {
+    flex: 1;
+    padding: 20px;
+}
+
+.order-details {
+    max-width: 45%;
+}
+
+.order-details img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.order-details h3 {
+    font-size: 24px;
+    color: #333;
+}
+
+.order-details h4 {
+    font-size: 20px;
+    color: #777;
+}
+
+.order-form {
+    max-width: 50%;
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.order-form table {
+    width: 100%;
+}
+
+.order-form table td {
+    padding: 10px 0;
+}
+
+.order-form input, .order-form textarea, .order-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+.success{
+    color: rgb(0, 255, 51);
+}
+
+/* profile css begins */
+.profile-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.profile-header h1 {
+    color: #333;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.user-info div {
+    flex: 1;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.orders-table th, .orders-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.orders-table th {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.orders-table td img {
+    width: 50px;
+    height: auto;
+    border-radius: 5px;
+}
+.view-status-btn{
+    background-color: var(--primary-color);
+    color: white;
+    cursor: default;
+}
 
 
 

@@ -1,42 +1,41 @@
-
 <?php
     include('../config/constants.php');
-    // echo "test";
-    //checking if img and id val is set
+    // Checking if id and image_name are set in the URL
+    if (isset($_GET['c_id']) AND isset($_GET['c_image_name'])) {
+        // Get the cake id and image name
+        $c_id = $_GET['c_id'];
+        $c_image_name = $_GET['c_image_name'];
 
-    if(isset($_GET['id']) AND isset($_GET['image_name'])){
-        //delete
-        // echo "delete";
-        $id = $_GET['id'];
-        $image_name = $_GET['image_name'];
-
-        //removes img from local storage if available and then del from db 
-        if($image_name != ""){
-            //img path
-            $path = "../img/cake/".$image_name;
-            //remove
+        // If image name is not empty, remove the image from the local storage
+        if ($c_image_name != "") {
+            // Image path
+            $path = "../img/cake/" . $c_image_name;
+            // Remove the image
             $remove = unlink($path);
-            //if failed to remove image then add an error txt
-            if($remove == FALSE){
-                //set the session txt 
-                $_SESSION['remove'] = "<div class = 'error'>Failed to remove Cake Image</div>";
-                header('location:'.HOMEURL.'admin/manage-cake.php');
+            // If failed to remove image, set an error message and redirect
+            if ($remove == FALSE) {
+                $_SESSION['remove'] = "<div class='error'>Failed to remove Cake Image</div>";
+                header('location:' . HOMEURL . 'admin/manage-cake.php');
                 die();
             }
         }
-            $sql = "DELETE FROM tbl_cake WHERE id=$id";
 
-            $res = mysqli_query($conn,$sql);
+        // SQL query to delete the cake
+        $sql = "DELETE FROM tbl_cake WHERE c_id=$c_id";  // Use c_id as the primary key
 
-            if($res == TRUE){
-                $_SESSION['delete'] = "<div class = 'success'>Cake removed sucessfully.</div";
-                header('location:'.HOMEURL.'admin/manage-cake.php');
-            }else{
-                $_SESSION['delete'] = "<div class = 'error'>Failed to remove cake.</div";
-                header('location:'.HOMEURL.'admin/manage-cake.php');
-            }
-    }else{
-        // redirect to manage cake
-        header('location:'.HOMEURL.'admin/manage-cake.php');
+        // Execute the query
+        $res = mysqli_query($conn, $sql);
+
+        // Check if the deletion was successful
+        if ($res == TRUE) {
+            $_SESSION['delete'] = "<div class='success'>Cake removed successfully.</div>";
+            header('location:' . HOMEURL . 'admin/manage-cake.php');
+        } else {
+            $_SESSION['delete'] = "<div class='error'>Failed to remove cake.</div>";
+            header('location:' . HOMEURL . 'admin/manage-cake.php');
+        }
+    } else {
+        // Redirect to manage cake if id or image_name is not set
+        header('location:' . HOMEURL . 'admin/manage-cake.php');
     }
 ?>
