@@ -143,3 +143,9 @@ p a {
 #popup button:hover {
     background-color: #005f47;
 }
+.success{
+    color: #105240;
+}
+.error{
+    color:red;
+}

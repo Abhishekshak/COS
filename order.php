@@ -85,7 +85,7 @@ if (isset($_GET['c_id'])) {
 </div>
 
 <?php include('frontend-partials/footer.php'); ?>
-<script>
+    <script>
         // Set today's date as the minimum selectable date for the delivery date input
         const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format
         document.getElementById('delivery-date').setAttribute('min', today);

@@ -1,3 +1,4 @@
+<?php include('config/constants.php');?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,10 @@
 </head>
 <body style="background-color: #9ed4c4">
     <h1 class="text-white">Login - COS</h1>
-    
+    <?php if(isset($_SESSION['register'])){
+        echo $_SESSION['register'];
+        unset($_SESSION['register']); }
+    ?><br>
     <!-- Login Form -->
     <form action="" method="POST">
         <div class="inputs">
@@ -47,7 +51,7 @@
     </div>
 
     <?php 
-    include('config/constants.php');
+    
 
     if (isset($_POST['submit'])) {
         $username = mysqli_real_escape_string($conn, $_POST['username']);

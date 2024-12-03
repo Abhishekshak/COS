@@ -236,6 +236,9 @@ button:hover {
 .success{
     color: rgb(0, 255, 51);
 }
+.error{
+    color: red;
+}
 
 /* profile css begins */
 .profile-container {

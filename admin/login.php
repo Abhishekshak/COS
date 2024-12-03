@@ -1,8 +1,5 @@
 <?php include('../config/constants.php') ?>
 <html>
-
-
-
     <head>
         <title>Login</title>
         <link rel="stylesheet" href="admin.css">
@@ -37,28 +34,38 @@
     </body>
 </html>
 
-
 <?php 
     if(isset($_POST['submit'])){
        $username = $_POST['username'];
        $password = md5($_POST['password']);
 
-       $sql = "SELECT *from tbl_admin where username = '$username' AND password = '$password'";
+       $sql = "SELECT * FROM tbl_admin WHERE username = '$username' AND password = '$password'";
+       $res = mysqli_query($conn, $sql);
 
-       $res = mysqli_query($conn,$sql);
-
-
-       //counting rows to check whether user exits or not 
+       // Counting rows to check whether user exists or not 
        $count = mysqli_num_rows($res);
+
        if($count == 1){
+            // Fetch user data
+            $row = mysqli_fetch_assoc($res);
+            $role = $row['role']; // Get the user's role from the database
+
             $_SESSION['login'] = "<div class= 'success'>Login Successfull.</div>";
-            $_SESSION['user'] = $username; //checking if user is logged in or not and log out in menu.php
-            header('location:'.HOMEURL.'admin/');
-            //user exists successfull
-       }else{
-        //no user exits 
-        $_SESSION['login'] = "<div class = 'error'>Credentials not matched.</div>";
-        header('location:'.HOMEURL.'admin/login.php');
+            $_SESSION['user'] = $username; // Store username in session
+            $_SESSION['role'] = $role; // Store role in session
+
+            // Redirect based on role
+            if ($role == 'superadmin') {
+                header('location:'.HOMEURL.'admin/manage-admin.php'); // Superadmin redirects to manage-admin
+            } else {
+                header('location:'.HOMEURL.'admin/'); // Normal admin redirects to dashboard
+            }
+            exit();
+       } else {
+            // No user exists 
+            $_SESSION['login'] = "<div class = 'error'>Credentials not matched.</div>";
+            header('location:'.HOMEURL.'admin/login.php');
+            exit();
        }
     }
 ?>

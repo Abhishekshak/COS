@@ -1,5 +1,44 @@
 <?php
     include('config/constants.php');  // Include config file where session is started
+
+    if (isset($_POST['submit'])) {
+        // Get form data
+        $username =  $_POST['username'];
+        $password =  $_POST['password'];
+        $contact =  $_POST['contact'];
+        $address =  $_POST['address'];
+        $email =  $_POST['email'];
+
+        // Hash the password (you can choose a more secure hashing method like bcrypt if needed)
+        $hashed_password = md5($password);
+
+        // Check if email already exists in the database
+        $email_check_query = "SELECT * FROM tbl_users WHERE u_email='$email'";
+        $email_check_result = mysqli_query($conn, $email_check_query);
+
+        if (mysqli_num_rows($email_check_result) > 0) {
+            // Email already exists
+            $_SESSION['register'] = "<div class='error'>Email is already registered. Please use a different email.</div>";
+            header('location: register.php');
+            exit;
+        } else {
+        // Insert data into the database if email is unique
+        $sql = "INSERT INTO tbl_users (u_name, u_password, u_contact, u_address, u_email)
+                VALUES ('$username', '$hashed_password', '$contact', '$address', '$email')";
+        $res = mysqli_query($conn, $sql);
+
+        if ($res) {
+            // Registration successful, redirect to login page with a success message
+            $_SESSION['register'] = "<div class='success'>Registration successful! Please log in.</div>";
+            // echo "Session register message: " . $_SESSION['register']; 
+            header('location: login.php');
+            exit;
+        } else {
+            // Registration failed, show an error message
+            $_SESSION['register'] = "<div class='error'>Failed to register. Please try again.</div>";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +64,9 @@
         </div>
         <div class="inputs">
             <i class="fas fa-phone"></i>
-            <input type="text" name="contact" placeholder="Contact Number" required>
+            <input type="tel" name="contact" placeholder="Contact Number" 
+       pattern="\d{10}" maxlength="10" minlength="10" title="Contact number must be digits only" required>
+
         </div>
         <div class="inputs">
             <i class="fas fa-home"></i>
@@ -36,7 +77,15 @@
             <input type="email" name="email" placeholder="Email" required>
         </div>
         <input class="btn" name="submit" type="submit" value="Register">
+        <?php if(isset($_SESSION['register'])){
+        echo $_SESSION['register'];
+        unset($_SESSION['register']); }
+        ?>
     </form>
+
+    <?php if(isset($_SESSION['register'])){
+        echo $_SESSION['register'];
+        unset($_SESSION['register']);}?>
 
     <!-- Add Login link -->
     <p class="text-white" style="text-align: center;">
