@@ -46,7 +46,7 @@
                             <td>" . $row['u_address'] . "</td>
                             <td>" . $row['u_email'] . "</td>
                             <td>
-                                <a href='delete-user.php?id=" . $row['u_id'] . "' class='btn-delete'>Delete User</a>
+                                <a href='delete-user.php?id=" . $row['u_id'] . "' class='btn-danger'>Delete User</a>
                             </td>
                         </tr>";
                     }

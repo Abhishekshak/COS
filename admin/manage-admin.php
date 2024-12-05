@@ -66,7 +66,7 @@
                                     <?php if ($role !== 'superadmin') : ?>
                                         <a href="<?php echo HOMEURL; ?>admin/delete-admin.php?id=<?php echo $id; ?>" class="btn-danger">Delete Admin</a>
                                     <?php else : ?>
-                                        <span class="btn-disabled">Cannot Delete Superadmin</span>
+                                        <span class="btn-disabled">Superadmin</span>
                                     <?php endif; ?>
                                 </td>
                             <?php endif; ?>

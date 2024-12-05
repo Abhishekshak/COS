@@ -9,7 +9,7 @@
 <header>
     <div class="header-container">
         <!-- Logo on the left -->
-        <img src="img/logo.png" alt="Cake Ordering System Logo" class="logo">
+        <img src="img/logo.png" alt="Cake Ordering System Logo" class="logo"><p class = "nav-head">COS</p>
 
         <nav>
             <a href="<?php echo HOMEURL;?>">Home</a>

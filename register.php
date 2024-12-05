@@ -65,7 +65,7 @@
         <div class="inputs">
             <i class="fas fa-phone"></i>
             <input type="tel" name="contact" placeholder="Contact Number" 
-       pattern="\d{10}" maxlength="10" minlength="10" title="Contact number must be digits only" required>
+       pattern="\d{10}" maxlength="10" minlength="10" title="Contact number must be 10 digits" required>
 
         </div>
         <div class="inputs">
