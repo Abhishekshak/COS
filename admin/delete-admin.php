@@ -9,17 +9,17 @@
     }
 
     // Get the ID of the admin to be deleted
-    $id = $_GET['id'];
+    $a_id = $_GET['a_id'];
 
     // Check if the admin being deleted is a superadmin
-    $sql_check_role = "SELECT role FROM tbl_admin WHERE id=$id";
+    $sql_check_role = "SELECT a_role FROM tbl_admin WHERE a_id=$a_id";
     $res_check_role = mysqli_query($conn, $sql_check_role);
 
     if ($res_check_role == TRUE && mysqli_num_rows($res_check_role) == 1) {
         $row = mysqli_fetch_assoc($res_check_role);
-        $role = $row['role'];
+        $a_role = $row['a_role'];
 
-        if ($role === 'superadmin') {
+        if ($a_role === 'superadmin') {
             // Prevent deletion of a superadmin
             $_SESSION['delete'] = "<div class='error'>You cannot delete a superadmin.</div>";
             header('location:' . HOMEURL . 'admin/manage-admin.php');
@@ -32,7 +32,7 @@
     }
 
     // Proceed to delete if the admin is not a superadmin
-    $sql = "DELETE FROM tbl_admin WHERE id=$id";
+    $sql = "DELETE FROM tbl_admin WHERE a_id=$a_id";
     $res = mysqli_query($conn, $sql);
 
     if ($res == TRUE) {

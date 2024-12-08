@@ -21,8 +21,8 @@
              ?>
              <br>
                 <form action="" method= "POST">
-                    <div class="inputs"><i class="fas fa-user"></i><input type="text" name = "username" placeholder="Username"></div>
-                    <div class="inputs"><i class="fas fa-lock"></i><input type="password" name = "password" placeholder="Password"></div>
+                    <div class="inputs"><i class="fas fa-user"></i><input type="text" name = "a_username" placeholder="Username"></div>
+                    <div class="inputs"><i class="fas fa-lock"></i><input type="password" name = "a_password" placeholder="Password"></div>
                     <input class= "btn" name= "submit" type="submit" value="LOGIN" >
                 </form>
             <br>
@@ -36,10 +36,10 @@
 
 <?php 
     if(isset($_POST['submit'])){
-       $username = $_POST['username'];
-       $password = md5($_POST['password']);
+       $a_username = $_POST['a_username'];
+       $a_password = md5($_POST['a_password']);
 
-       $sql = "SELECT * FROM tbl_admin WHERE username = '$username' AND password = '$password'";
+       $sql = "SELECT * FROM tbl_admin WHERE a_username = '$a_username' AND a_password = '$a_password'";
        $res = mysqli_query($conn, $sql);
 
        // Counting rows to check whether user exists or not 
@@ -48,10 +48,10 @@
        if($count == 1){
             // Fetch user data
             $row = mysqli_fetch_assoc($res);
-            $role = $row['role']; // Get the user's role from the database
+            $role = $row['a_role']; // Get the user's role from the database
 
-            $_SESSION['login'] = "<div class= 'success'>Login Successfull.</div>";
-            $_SESSION['user'] = $username; // Store username in session
+            $_SESSION['login'] = "<div class= 'success'>Login Successful.</div>";
+            $_SESSION['user'] = $a_username; // Store a_username in session
             $_SESSION['role'] = $role; // Store role in session
 
             // Redirect based on role

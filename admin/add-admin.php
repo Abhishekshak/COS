@@ -23,16 +23,16 @@
         <table class="tbl-30">
             <tr>
                 <td>Username:</td>
-                <td><input type="text" name="username" placeholder="Enter your username" required></td>
+                <td><input type="text" name="a_username" placeholder="Enter your username" required></td> <!-- Updated form field name -->
             </tr>
             <tr>
                 <td>Password:</td>
-                <td><input type="password" name="password" placeholder="Enter your password" required></td>
+                <td><input type="password" name="a_password" placeholder="Enter your password" required></td> <!-- Updated form field name -->
             </tr>
             <tr>
                 <td>Role:</td>
                 <td>
-                    <select name="role">
+                    <select name="a_role"> <!-- Updated form field name -->
                         <option value="admin">Admin</option>
                         <option value="superadmin">Superadmin</option>
                     </select>
@@ -54,13 +54,13 @@
 // Process the form and save the admin details in the database
 if (isset($_POST['submit'])) {
     // Get data from form
-    $username = $_POST['username'];
-    $password = md5($_POST['password']); // Encrypt the password using MD5
-    $role = $_POST['role']; // Get the selected role
+    $a_username = $_POST['a_username']; // Updated to match new field name
+    $a_password = md5($_POST['a_password']); // Encrypt the password using MD5, updated field name
+    $a_role = $_POST['a_role']; // Updated to match new field name
 
     // Query to insert data into the database
-    $sql = "INSERT INTO tbl_admin (username, password, role) 
-            VALUES ('$username', '$password', '$role')";
+    $sql = "INSERT INTO tbl_admin (a_username, a_password, a_role)  
+            VALUES ('$a_username', '$a_password', '$a_role')";
     
     // Execute the query
     $res = mysqli_query($conn, $sql);

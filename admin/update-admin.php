@@ -8,10 +8,10 @@
 
         <?php
             // Check if the admin ID is set
-            if (isset($_GET['id'])) {
-                $id = $_GET['id'];
+            if (isset($_GET['a_id'])) {
+                $a_id = $_GET['a_id'];  // Updated to match the new naming convention
                 // Query to fetch the admin details from the database
-                $sql = "SELECT * FROM tbl_admin WHERE id = $id";
+                $sql = "SELECT * FROM tbl_admin WHERE a_id = $a_id";
                 $res = mysqli_query($conn, $sql);
 
                 // Check if the query returns a result
@@ -19,8 +19,8 @@
                 if ($count == 1) {
                     // Fetch admin details
                     $row = mysqli_fetch_assoc($res);
-                    $username = $row['username'];
-                    $password = $row['password'];
+                    $a_username = $row['a_username'];  // Updated to match new column names
+                    $a_password = $row['a_password'];  // Updated to match new column names
                 } else {
                     // If no admin found with the given ID
                     $_SESSION['no-admin-found'] = "<div class='error'>Admin not found.</div>";
@@ -36,11 +36,11 @@
             <table class="tbl-30">
                 <tr>
                     <td>Username:</td>
-                    <td><input type="text" name="username" value="<?php echo $username; ?>" placeholder="Enter your username"></td>
+                    <td><input type="text" name="a_username" value="<?php echo $a_username; ?>" placeholder="Enter your username"></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
-                    <td><input type="password" name="password" placeholder="Enter your new password"></td>
+                    <td><input type="password" name="a_password" placeholder="Enter your new password"></td>
                 </tr>
                 <tr>
                     <td colspan="2">
@@ -58,19 +58,19 @@
     // Check if the form is submitted
     if (isset($_POST['submit'])) {
         // Get data from the form
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $a_username = $_POST['a_username'];  // Updated to match new form name
+        $a_password = $_POST['a_password'];  // Updated to match new form name
 
         // If password is not entered, keep the old password
-        if (empty($password)) {
-            $password = $row['password']; // Keep the old password if no new password is provided
+        if (empty($a_password)) {
+            $a_password = $row['a_password']; // Keep the old password if no new password is provided
         } else {
             // Encrypt the password
-            $password = md5($password); // md5 encrypts one side only
+            $a_password = md5($a_password); // md5 encrypts one side only
         }
 
         // Query to update the admin details
-        $sql2 = "UPDATE tbl_admin SET username = '$username', password = '$password' WHERE id = $id";
+        $sql2 = "UPDATE tbl_admin SET a_username = '$a_username', a_password = '$a_password' WHERE a_id = $a_id";
         // Execute the query
         $res2 = mysqli_query($conn, $sql2);
 
@@ -82,7 +82,7 @@
         } else {
             $_SESSION['update'] = "<div class='error'>Failed to update admin.</div>";
             // Redirect back to the update-admin page
-            header("location:" . HOMEURL . 'admin/update-admin.php?id=' . $id);
+            header("location:" . HOMEURL . 'admin/update-admin.php?a_id=' . $a_id);  // Updated to match new URL parameter
         }
     }
 ?>

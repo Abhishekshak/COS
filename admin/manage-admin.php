@@ -18,6 +18,12 @@
             unset($_SESSION['delete']);
         }
         ?>
+                <?php
+        if (isset($_SESSION['update'])) {
+            echo $_SESSION['update'];
+            unset($_SESSION['update']);
+        }
+        ?>
 
         <br><br>
 
@@ -39,7 +45,7 @@
             </tr>
 
             <?php
-            $sql = "SELECT * FROM tbl_admin";
+            $sql = "SELECT * FROM tbl_admin"; // Query remains the same, fetching all admin records
             $res = mysqli_query($conn, $sql);
             if ($res == TRUE) {
                 //counting rows 
@@ -48,23 +54,23 @@
                 if ($count > 0) {
                     //we got data in db
                     while ($rows = mysqli_fetch_assoc($res)) {
-                        $id = $rows['id'];
-                        $username = $rows['username'];
-                        $role = $rows['role'];  // Assume 'role' column is added to tbl_admin
+                        $a_id = $rows['a_id'];
+                        $a_username = $rows['a_username'];
+                        $a_role = $rows['a_role'];  // Updated for the new attribute names
                         ?>
                         <tr>
                             <td><?php echo $sn++; ?></td>
-                            <td><?php echo $username; ?></td>
-                            <td><?php echo ucfirst($role); ?></td>
+                            <td><?php echo $a_username; ?></td>
+                            <td><?php echo ucfirst($a_role); ?></td>
 
                             <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'superadmin') : ?>
                                 <td>
                                     <!-- Update Admin option available for all -->
-                                    <a href="<?php echo HOMEURL; ?>admin/update-admin.php?id=<?php echo $id; ?>" class="btn-secondary">Update Admin</a>
+                                    <a href="<?php echo HOMEURL; ?>admin/update-admin.php?a_id=<?php echo $a_id; ?>" class="btn-secondary">Update Admin</a>
 
                                     <!-- Allow deletion only if it's not a superadmin -->
-                                    <?php if ($role !== 'superadmin') : ?>
-                                        <a href="<?php echo HOMEURL; ?>admin/delete-admin.php?id=<?php echo $id; ?>" class="btn-danger">Delete Admin</a>
+                                    <?php if ($a_role !== 'superadmin') : ?>
+                                        <a href="<?php echo HOMEURL; ?>admin/delete-admin.php?a_id=<?php echo $a_id; ?>" class="btn-danger">Delete Admin</a>
                                     <?php else : ?>
                                         <span class="btn-disabled">Superadmin</span>
                                     <?php endif; ?>
