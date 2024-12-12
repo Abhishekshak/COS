@@ -21,8 +21,8 @@
                 <a href="logout.php">Logout</a>
             <?php else: ?>
                 <!-- If not logged in, show Login and Register buttons -->
-                <a href="login.php" id="login">Login</a>
-                <a href="register.php" id="register">Register</a>
+                <a href="login.php" id="login">Login/Register</a>
+                <!-- <a href="register.php" id="register">Register</a> -->
             <?php endif; ?>
         </nav>
     </div>
