@@ -4,6 +4,7 @@
     version: 1.0
 */
 
+/* Global Styles */
 * {
     margin: 0;
     padding: 0;
@@ -13,8 +14,12 @@
 
 body {
     background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;  /* Stack elements vertically */
+    min-height: 100vh;  /* Ensure body takes at least the full viewport height */
 }
 
+/* Wrapper to contain content */
 .wrapper {
     padding: 1%;
     width: 80%;
@@ -31,20 +36,21 @@ body {
 }
 
 /* Simplified Table Styling */
-.tbl-full{
+.tbl-full {
     width: 100%;
 }
-.tbl-30{
+
+.tbl-30 {
     width: 30%;
 }
 
-table tr th{
+table tr th {
     border-bottom: 1px solid black;
     padding: 1%;
     text-align: left;
 }
 
-table tr td{
+table tr td {
     padding: 1%;
 }
 
@@ -104,8 +110,13 @@ table tr td{
 .menu {
     text-align: center;
     background-color: #007b5e;
-    padding: 10px 0;
+    padding: 0.3em;
     border-bottom: 1px solid black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .menu ul {
@@ -132,7 +143,8 @@ table tr td{
     background-color: #9ed4c4;
     padding: 3%;
     border-radius: 10px;
-    margin: 20px 0;
+    flex-grow: 1;  /* Take remaining space between header and footer */
+    margin: 70px 0 70px 0; /* Adjust the top margin to account for the fixed header height */
 }
 
 /* Column Layout */
@@ -162,10 +174,11 @@ table tr td{
     background-color: #105240;
     color: white;
     text-align: center;
-    padding: 10px 0;
-    position: relative;
+    padding: 0.3em;
+    position: fixed; /* Keep footer at the bottom */
     bottom: 0;
     width: 100%;
+    z-index: 1000;
 }
 
 /* Login Page */
@@ -197,7 +210,7 @@ table tr td{
 }
 
 .inputs input {
-    padding-left: 40px; /* Adjust to create space for the icon */
+    padding-left: 40px;
     width: 100%;
     height: 40px;
     background-color: rgb(184, 233, 240);
@@ -209,7 +222,6 @@ table tr td{
 input::placeholder {
     color: black;
 }
-
 
 .btn {
     border-radius: 30px;
@@ -246,6 +258,7 @@ input::placeholder {
 .badge.delivered {
     background-color: #5cb85c;
 }
+
 .badge.cancelled {
     background-color: #d9534f;
 }

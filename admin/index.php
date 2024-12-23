@@ -58,7 +58,7 @@ $total_income = $data_income['total_income'];
             Orders
         </div>
         <div class="col-4 text-center">
-            <h1>$<?php echo number_format($total_income, 2); ?></h1>
+            <h1>Rs. <?php echo number_format($total_income, 2); ?></h1>
             <br>
             Income
         </div>

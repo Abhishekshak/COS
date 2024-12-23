@@ -74,7 +74,7 @@
                     <tr>
                         <td><?php echo $sn++; ?></td>
                         <td><?php echo htmlspecialchars($c_name); ?></td>
-                        <td>$<?php echo number_format($c_price, 2); ?></td>
+                        <td>Rs. <?php echo number_format($c_price); ?></td>
                         <td>
                             <?php
                             if ($c_image_name == "") {

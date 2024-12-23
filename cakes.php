@@ -14,8 +14,17 @@
 <body>
 
     <main>
+    <section>
+            <h1>Order your favorite cakes with ease and have them delivered to your doorstep.</h1>
+            <div class="search">
+                <form action="search.php" method= "GET">
+                    <input type="text" class="search-bar" placeholder="Browse for cakes" name = "query">
+                    <button class="search-button" type= "submit">Search</button>
+                </form>
+            </div>
+    </section>
         <section>
-            <h2>Our Cakes</h2>
+            <h2>OUR CAKES</h2>
             <div class="cake-grid">
                 <?php
                     // Fetch cakes that are active to be displayed
@@ -45,7 +54,7 @@
 
                                 <h3><?php echo htmlspecialchars($title); ?></h3>
                                 <h5><?php echo htmlspecialchars($description); ?></h5>
-                                <h4>Price: $<?php echo htmlspecialchars($price); ?></h4>
+                                <h4>Price: Rs.<?php echo htmlspecialchars($price); ?></h4>
                                 
                                 <!-- Order Now Button -->
                                 <button onclick="window.location.href='<?php echo $is_logged_in ? 'order.php?c_id=' . $id : 'login.php'; ?>'">

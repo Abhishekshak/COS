@@ -1,4 +1,4 @@
-<?php include('config/constants.php');?>
+<?php include('config/constants.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +21,7 @@
     </script>
 </head>
 <body style="background-color: #9ed4c4">
-    <h1 class="text-white">Login - COS</h1>
+    <h1 class="text-white">Login - Cake Ordering System</h1>
     <?php if(isset($_SESSION['register'])){
         echo $_SESSION['register'];
         unset($_SESSION['register']); }
@@ -29,8 +29,8 @@
     <!-- Login Form -->
     <form action="" method="POST">
         <div class="inputs">
-            <i class="fas fa-user"></i>
-            <input type="text" name="username" placeholder="Username" required>
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email" required>
         </div>
         <div class="inputs">
             <i class="fas fa-lock"></i>
@@ -39,10 +39,10 @@
         <input class="btn" name="submit" type="submit" value="LOGIN">
     </form>
 
-        <!-- Add Register link -->
-        <p class="text-white" style="text-align: center;">
+    <!-- Add Register link -->
+    <p class="text-white" style="text-align: center;">
         Don't have an account? <a href="register.php" style="color: #007b5e; text-decoration: none;">Sign up</a>
-        </p>
+    </p>
 
     <!-- Popup Dialog -->
     <div id="popup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background-color:white; padding:20px; border-radius:10px; box-shadow:0px 0px 10px rgba(0,0,0,0.2); text-align:center;">
@@ -51,17 +51,15 @@
     </div>
 
     <?php 
-    
-
     if (isset($_POST['submit'])) {
-        $username = mysqli_real_escape_string($conn, $_POST['username']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
         $password = mysqli_real_escape_string($conn, $_POST['password']);
 
         // MD5 hashing for the password
         $hashed_password = md5($password);
 
-        // Check if username and password match any record in the database
-        $sql = "SELECT * FROM tbl_users WHERE u_name='$username' AND u_password='$hashed_password'";
+        // Check if email and password match any record in the database
+        $sql = "SELECT * FROM tbl_users WHERE u_email='$email' AND u_password='$hashed_password'";
         $res = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($res) > 0) {
@@ -75,10 +73,9 @@
             exit;
         } else {
             // Login failed, show error
-            echo "<script>showPopup('Invalid username or password. Please try again.');</script>";
+            echo "<script>showPopup('Invalid email or password. Please try again.');</script>";
         }
     }
-?>
-
+    ?>
 </body>
 </html>

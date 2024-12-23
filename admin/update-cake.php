@@ -92,13 +92,13 @@
             <?php
                  // Handling form submission
                  if(isset($_POST['submit'])){
-                    $c_id = $_POST['c_id'];
-                    $c_name = $_POST['c_name'];
-                    $c_description = $_POST['c_description'];
-                    $c_price = $_POST['c_price'];
-                    $current_image = $_POST['current_image'];
-                    $c_featured = $_POST['c_featured'];
-                    $c_active = $_POST['c_active'];
+                    $c_id = mysqli_real_escape_string($conn, $_POST['c_id']);
+                    $c_name = mysqli_real_escape_string($conn, $_POST['c_name']);
+                    $c_description = mysqli_real_escape_string($conn, $_POST['c_description']);
+                    $c_price = mysqli_real_escape_string($conn, $_POST['c_price']);
+                    $c_featured = mysqli_real_escape_string($conn, $_POST['c_featured']);
+                    $c_active = mysqli_real_escape_string($conn, $_POST['c_active']);
+                    $current_image = mysqli_real_escape_string($conn, $_POST['current_image']);
 
                     // Handling new image upload
                     if(isset($_FILES['c_image_name']['name'])){

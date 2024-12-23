@@ -8,7 +8,7 @@
     // }
 
     // Fetch all users from the database
-    $sql = "SELECT * FROM tbl_users";
+    $sql = "SELECT * FROM tbl_users ORDER BY u_id DESC";
     $res = mysqli_query($conn, $sql);
 ?>
 

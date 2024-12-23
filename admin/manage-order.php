@@ -33,7 +33,8 @@
                         u.u_name, c.c_name, c.c_image_name
                     FROM tbl_order o
                     JOIN tbl_users u ON o.u_id = u.u_id
-                    JOIN tbl_cake c ON o.c_id = c.c_id";
+                    JOIN tbl_cake c ON o.c_id = c.c_id 
+                    ORDER BY o.o_delivery_date DESC";
 
             $res = mysqli_query($conn, $sql);
 
@@ -57,7 +58,7 @@
                             <td><?php echo $o_quantity; ?></td>
                             <td><?php echo $o_delivery_location; ?></td>
                             <td><?php echo $o_delivery_date; ?></td>
-                            <td>$<?php echo $o_total; ?></td>
+                            <td>Rs. <?php echo $o_total; ?></td>
                             <td>
                                 <span class="badge <?php echo strtolower($o_status); ?>">
                                     <?php echo ucfirst($o_status); ?>

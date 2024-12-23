@@ -1,4 +1,15 @@
 <?php
+// Check if the form has been submitted
+if (isset($_GET['query'])) {
+    $search_query = trim($_GET['query']);  // Trim any extra spaces
+    if ($search_query == '') {
+        // Redirect to the same page if the search query is empty
+        header("Location: index.php");
+        exit();  // Make sure to stop further execution
+    }
+}
+?>
+<?php
 include('config/constants.php');
 
 // Check if the user is logged in
@@ -21,8 +32,10 @@ $is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwis
         <section>
             <h1>Order your favorite cakes with ease and have them delivered to your doorstep.</h1>
             <div class="search">
-                <input type="text" class="search-bar" placeholder="Browse for cakes">
-                <button class="search-button">Search</button>
+                <form action="search.php" method= "GET">
+                    <input type="text" class="search-bar" placeholder="Browse for cakes" name = "query">
+                    <button class="search-button" type= "submit">Search</button>
+                </form>
             </div>
         </section>
 
@@ -32,7 +45,7 @@ $is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwis
             <div class="cake-grid">
                 <?php
                     // Fetch active and featured cakes
-                    $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' AND c_featured = 'Yes' LIMIT 6";
+                    $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' AND c_featured = 'Yes' ORDER BY RAND() LIMIT 3";
                     $res = mysqli_query($conn, $sql);
                     $count = mysqli_num_rows($res);
 
@@ -59,7 +72,7 @@ $is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwis
 
                                 <h3><?php echo htmlspecialchars($title); ?></h3>
                                 <h5><?php echo htmlspecialchars($description); ?></h5>
-                                <h4>Price: $<?php echo htmlspecialchars($price); ?></h4>
+                                <h4>Price: Rs.<?php echo htmlspecialchars($price); ?></h4>
 
                                 <!-- Order Now Button -->
                                 <button onclick="window.location.href='<?php echo $is_logged_in ? 'order.php?c_id=' . $id : 'login.php'; ?>'">
@@ -73,6 +86,11 @@ $is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwis
                     }
                 ?>
             </div>
+        </section>
+        <section>
+        <div class="view-more-container">
+            <a href="cakes.php" class="view-more-btn">View More</a>
+        </div>
         </section>
     </main>
 

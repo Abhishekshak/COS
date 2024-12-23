@@ -1,0 +1,100 @@
+<?php
+include('config/constants.php');
+
+// Check if the form has been submitted
+if (isset($_GET['query'])) {
+    $search_query = trim($_GET['query']);  // Trim any extra spaces
+    if ($search_query == '') {
+        // Redirect to index.php if the search query is empty
+        header("Location: index.php");
+        exit();  // Ensure no further code is executed
+    }
+}
+
+// Check if the user is logged in
+$is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwise
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - Cake Ordering System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <?php include 'frontend-partials/header.php'; ?>
+
+    <main>
+        <section>
+            <h1>Order your favorite cakes with ease and have them delivered to your doorstep.</h1>
+            <div class="search">
+                <form action="search.php" method="GET">
+                    <input type="text" class="search-bar" placeholder="Browse for cakes" name="query" value="<?php echo isset($search_query) ? htmlspecialchars($search_query) : ''; ?>">
+                    <button class="search-button" type="submit">Search</button>
+                </form>
+            </div>
+        </section>
+
+        <section>
+            <h1>Search Results: <?php echo $search_query; ?></h1>
+
+            <div class="cake-grid">
+                <?php
+                    if (isset($search_query) && $search_query != '') {
+                        // Query database for cakes matching the search
+                        $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' AND c_name LIKE '%$search_query%'OR c_description LIKE '%$search_query%' ORDER BY RAND()";
+                        $res = mysqli_query($conn, $sql);
+                        $count = mysqli_num_rows($res);
+
+                        if ($count > 0) {
+                            while ($row = mysqli_fetch_assoc($res)) {
+                                // Fetch cake details
+                                $id = $row['c_id'];
+                                $title = $row['c_name'];
+                                $description = $row['c_description'];
+                                $price = $row['c_price'];
+                                $image_name = $row['c_image_name'];
+                ?>
+                                <div class="cake-item">
+                                    <?php
+                                        if ($image_name == "") {
+                                            echo "<div class='error'>Image Not Available</div>";
+                                        } else {
+                                    ?>
+                                            <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $image_name; ?>" alt="Cake Image">
+                                    <?php
+                                        }
+                                    ?>
+
+                                    <h3><?php echo htmlspecialchars($title); ?></h3>
+                                    <h5><?php echo htmlspecialchars($description); ?></h5>
+                                    <h4>Price: Rs.<?php echo htmlspecialchars($price); ?></h4>
+
+                                    <button onclick="window.location.href='<?php echo $is_logged_in ? 'order.php?c_id=' . $id : 'login.php'; ?>'">
+                                        Order Now
+                                    </button>
+                                </div>
+                <?php
+                            }
+                        } else {
+                            echo "<div class='error'>No cakes found for your search</div>";
+                        }
+                    }
+                ?>
+            </div>
+        </section>
+        
+        <section>
+            <div class="view-more-container">
+                <a href="cakes.php" class="view-more-btn">View Other Cakes</a>
+            </div>
+        </section>
+    </main>
+
+    <?php include 'frontend-partials/footer.php'; ?>
+
+</body>
+</html>

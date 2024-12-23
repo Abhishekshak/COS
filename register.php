@@ -92,9 +92,6 @@
         Already a user? <a href="login.php" style="color: #007b5e; text-decoration: none;">Login now</a>
     </p>
 
-    <p class="text-white" style="text-align: center;">
-        Created by Abhishek Shakya
-    </p>
 
 </body>
 </html>

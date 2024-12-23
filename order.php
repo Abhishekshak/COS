@@ -48,7 +48,7 @@ if (isset($_GET['c_id'])) {
     <div class="order-details">
         <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $cake_image; ?>" alt="Cake Image">
         <h3><?php echo $cake_name; ?></h3><br>
-        <h4>Price: $<?php echo $cake_price; ?></h4><br>
+        <h4>Price: Rs.<?php echo $cake_price; ?></h4><br>
         <p><?php echo $cake_description; ?></p>
     </div>
 
@@ -85,6 +85,7 @@ if (isset($_GET['c_id'])) {
 </div>
 
 <?php include('frontend-partials/footer.php'); ?>
+
     <script>
         // Set today's date as the minimum selectable date for the delivery date input
         const today = new Date().toISOString().split('T')[0]; // Get today's date in YYYY-MM-DD format

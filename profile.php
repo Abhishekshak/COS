@@ -1,27 +1,56 @@
 <?php
-include('config/constants.php');
-include('frontend-partials/header.php');
+include('config/constants.php');  // Include config file where session is started
 
-// Check if the user is logged in
-if (!isset($_SESSION['u_name'])) {
-    header('location:' . HOMEURL . 'login.php');
+// Ensure user is logged in
+if (!isset($_SESSION['u_id'])) {
+    header('location: login.php');
     exit;
 }
 
-// Get user ID from session
-$u_id = $_SESSION['u_id'];
+// Fetch user data from the database
+$user_id = $_SESSION['u_id']; // Assuming the user_id is stored in the session
+$sql = "SELECT * FROM tbl_users WHERE u_id = '$user_id'";
+$res = mysqli_query($conn, $sql);
 
-// Retrieve user information from the database (optional, for displaying user info)
-$sql_user = "SELECT * FROM tbl_users WHERE u_id = $u_id";
-$res_user = mysqli_query($conn, $sql_user);
-$row_user = mysqli_fetch_assoc($res_user);
+if ($res) {
+    $user = mysqli_fetch_assoc($res);
+} else {
+    $_SESSION['update'] = "<div class='error-msg'>User not found. Please try again.</div>";
+}
 
-// Retrieve orders placed by the user
-$sql_orders = "SELECT tbl_order.o_id, tbl_order.o_quantity, tbl_order.o_delivery_location, tbl_order.o_delivery_date, tbl_order.o_total, tbl_order.o_status, tbl_cake.c_name, tbl_cake.c_image_name 
-               FROM tbl_order 
-               JOIN tbl_cake ON tbl_order.c_id = tbl_cake.c_id 
-               WHERE tbl_order.u_id = $u_id";
-$res_orders = mysqli_query($conn, $sql_orders);
+// If form is submitted to update profile
+if (isset($_POST['submit'])) {
+    // Get form data
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $contact = $_POST['contact'];
+    $address = $_POST['address'];
+    $email = $_POST['email'];
+
+    // Check if password is provided, if so, hash it
+    if (!empty($password)) {
+        $hashed_password = md5($password); // Use a more secure method like bcrypt if needed
+    } else {
+        $hashed_password = $user['u_password']; // Keep the existing password if not provided
+    }
+
+    // Update user data in the database
+    $update_sql = "UPDATE tbl_users 
+                   SET u_name = '$username', u_password = '$hashed_password', u_contact = '$contact', u_address = '$address', u_email = '$email'
+                   WHERE u_id = '$user_id'";
+
+    $update_res = mysqli_query($conn, $update_sql);
+
+    if ($update_res) {
+        $_SESSION['update'] = "<div class='success-msg'>Profile updated successfully!</div>";
+    } else {
+        $_SESSION['update'] = "<div class='error-msg'>Failed to update profile. Please try again.</div>";
+    }
+
+    // Redirect to the same page to avoid resubmitting the form on refresh
+    // header('Location: profile.php');
+    // exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,69 +58,57 @@ $res_orders = mysqli_query($conn, $sql_orders);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Profile</title>
+    <title>Profile - Cake Ordering System</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body>
+<body style="background-color: #9ed4c4;">
+<?php include 'frontend-partials/header.php'; ?>
 
-<div class="profile-container">
-    <div class="profile-header">
-        <h1>Welcome, <?php echo htmlspecialchars($row_user['u_name']); ?>!</h1>
-        <p>Your order history and profile details are below.</p>
-    </div>
+<div class="profile">
+    <h1>Edit Profile</h1>
 
-    <div class="user-info">
-        <div>
-            <h3>Profile Information</h3>
-            <p><strong>Username:</strong> <?php echo htmlspecialchars($row_user['u_name']); ?></p>
-            <p><strong>Email:</strong> <?php echo htmlspecialchars($row_user['u_email']); ?></p>
-            <p><strong>Phone:</strong> <?php echo htmlspecialchars($row_user['u_contact']); ?></p>
-        </div>
-    </div>
-
-    <h2>Your Orders</h2><br>
-    <?php if(isset($_SESSION['order'])){
-            echo($_SESSION['order']);
-            unset($_SESSION['order']);}
+    <!-- Show the update message if it exists -->
+    <?php
+    if (isset($_SESSION['update'])) {
+        echo $_SESSION['update'];
+        unset($_SESSION['update']); // Unset the session variable after displaying the message
+    }
     ?>
-    <?php if (mysqli_num_rows($res_orders) > 0): ?>
-        <table class="orders-table">
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Cake</th>
-                    <th>Quantity</th>
-                    <th>Delivery Location</th>
-                    <th>Delivery Date</th>
-                    <th>Total Price</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while ($row_order = mysqli_fetch_assoc($res_orders)): ?>
-                    <tr>
-                        <td><?php echo $row_order['o_id']; ?></td>
-                        <td>
-                            <img src="<?php echo HOMEURL; ?>img/cake/<?php echo $row_order['c_image_name']; ?>" alt="Cake Image">
-                            <div><?php echo htmlspecialchars($row_order['c_name']); ?></div>
-                        </td>
-                        <td><?php echo $row_order['o_quantity']; ?></td>
-                        <td><?php echo htmlspecialchars($row_order['o_delivery_location']); ?></td>
-                        <td><?php echo $row_order['o_delivery_date']; ?></td>
-                        <td class="total-price">$<?php echo number_format($row_order['o_total'], 2); ?></td>
-                        <td>
-                            <button class="view-status-btn"><?php echo $row_order['o_status']; ?></button>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p>No orders found!</p>
-    <?php endif; ?>
+
+    <!-- Profile Edit Form -->
+    <form action="" method="POST" class="profile-form">
+        <div class="profile-inputs">
+            <i class="fas fa-user"></i>
+            <input type="text" name="username" placeholder="Username" value="<?php echo $user['u_name']; ?>" required>
+        </div>
+
+        <div class="profile-inputs">
+            <i class="fas fa-lock"></i>
+            <!-- Allow password to be optional -->
+            <input type="password" name="password" placeholder="New Password (Leave empty to keep current)" value="">
+        </div>
+
+        <div class="profile-inputs">
+            <i class="fas fa-phone"></i>
+            <input type="tel" name="contact" placeholder="Contact Number" value="<?php echo $user['u_contact']; ?>" pattern="\d{10}" maxlength="10" minlength="10" title="Contact number must be 10 digits" required>
+        </div>
+
+        <div class="profile-inputs">
+            <i class="fas fa-home"></i>
+            <input type="text" name="address" placeholder="Address" value="<?php echo $user['u_address']; ?>" required>
+        </div>
+
+        <div class="profile-inputs">
+            <i class="fas fa-envelope"></i>
+            <input type="email" name="email" placeholder="Email" value="<?php echo $user['u_email']; ?>" required>
+        </div>
+
+        <input class="profile-btn" name="submit" type="submit" value="Update Profile">
+    </form>
 </div>
 
-<?php include('frontend-partials/footer.php'); ?>
+<?php include 'frontend-partials/footer.php'; ?>
 
 </body>
 </html>
