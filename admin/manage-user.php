@@ -45,9 +45,13 @@
                             <td>" . $row['u_contact'] . "</td>
                             <td>" . $row['u_address'] . "</td>
                             <td>" . $row['u_email'] . "</td>
-                            <td>
-                                <a href='delete-user.php?id=" . $row['u_id'] . "' class='btn-danger'>Delete User</a>
-                            </td>
+                        <td>
+                                <a href='delete-user.php?id=" . $row['u_id'] . "' 
+                                class='btn-danger' 
+                                onclick=\"return confirm('Are you sure you want to delete this user?');\">
+                                Delete User
+                                </a>
+                        </td>
                         </tr>";
                     }
                 } else {

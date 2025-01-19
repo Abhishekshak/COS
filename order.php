@@ -74,6 +74,12 @@ if (isset($_GET['c_id'])) {
                     <td><input type="date" name="o_delivery_date" id="delivery-date" required></td>
                 </tr>
 
+                <!-- Special Instructions -->
+                <tr>
+                    <td>Special Instructions:</td>
+                    <td><textarea name="o_special_instructions" placeholder="Enter any special instructions (optional)"></textarea></td>
+                </tr>
+
                 <tr>
                     <td colspan="2" style="text-align: center;">
                         <input type="submit" name="submit" value="Place Order" class="btn-primary">
@@ -100,6 +106,7 @@ if (isset($_POST['submit'])) {
     $o_quantity = $_POST['o_quantity'];
     $o_delivery_location = $_POST['o_delivery_location'];
     $o_delivery_date = $_POST['o_delivery_date'];
+    $o_special_instructions = $_POST['o_special_instructions'];
 
     // Calculate total price
     $total = $cake_price * $o_quantity;
@@ -108,18 +115,17 @@ if (isset($_POST['submit'])) {
     $u_id = $_SESSION['u_id']; // Assuming user ID is stored in session
 
     // Insert order into the database
-    $sql2 = "INSERT INTO tbl_order (u_id, c_id, o_quantity, o_delivery_location, o_delivery_date, o_total)
-             VALUES ('$u_id', '$c_id', '$o_quantity', '$o_delivery_location', '$o_delivery_date', '$total')";
+    $sql2 = "INSERT INTO tbl_order (u_id, c_id, o_quantity, o_delivery_location, o_delivery_date, o_total, o_special_instructions)
+             VALUES ('$u_id', '$c_id', '$o_quantity', '$o_delivery_location', '$o_delivery_date', '$total', '$o_special_instructions')";
 
     $res2 = mysqli_query($conn, $sql2);
 
     if ($res2 == true) {
         $_SESSION['order'] = "<div class='success'>Order Placed Successfully.</div>";
-        header('location:' . HOMEURL . 'profile.php');
+        header('location:' . HOMEURL . 'myorder.php');
     } else {
         // $_SESSION['order'] = "<div class='error'>Failed to Place Order.</div>";
         header('location:' . HOMEURL . 'index.php');
     }
 }
 ?>
-

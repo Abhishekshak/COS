@@ -45,7 +45,10 @@ $is_logged_in = isset($_SESSION['u_name']); // True if logged in, false otherwis
                 <?php
                     if (isset($search_query) && $search_query != '') {
                         // Query database for cakes matching the search
-                        $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' AND c_name LIKE '%$search_query%'OR c_description LIKE '%$search_query%' ORDER BY RAND()";
+                        $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' 
+                                AND (c_name LIKE '%$search_query%' OR c_description LIKE '%$search_query%') 
+                                ORDER BY RAND()";
+
                         $res = mysqli_query($conn, $sql);
                         $count = mysqli_num_rows($res);
 

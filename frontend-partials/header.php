@@ -14,10 +14,11 @@
         <nav>
             <a href="<?php echo HOMEURL;?>">Home</a>
             <a href="<?php echo HOMEURL; ?>cakes.php">Cakes</a>
-            <a href="<?php echo HOMEURL; ?>myorder.php">My Orders</a>
+            
 
             <?php if ($is_logged_in): ?>
                 <!-- If logged in, show Welcome message and Logout button -->
+                <a href="<?php echo HOMEURL; ?>myorder.php">My Orders</a>
                 <a href="profile.php">Welcome, <?php echo htmlspecialchars($user_name); ?>!</a>
                 <a href="logout.php">Logout</a>
             <?php else: ?>

@@ -18,7 +18,7 @@
             unset($_SESSION['delete']);
         }
         ?>
-                <?php
+        <?php
         if (isset($_SESSION['update'])) {
             echo $_SESSION['update'];
             unset($_SESSION['update']);
@@ -70,7 +70,7 @@
 
                                     <!-- Allow deletion only if it's not a superadmin -->
                                     <?php if ($a_role !== 'superadmin') : ?>
-                                        <a href="<?php echo HOMEURL; ?>admin/delete-admin.php?a_id=<?php echo $a_id; ?>" class="btn-danger">Delete Admin</a>
+                                        <a href="#" onclick="confirmDelete('<?php echo HOMEURL; ?>admin/delete-admin.php?a_id=<?php echo $a_id; ?>')" class="btn-danger">Delete Admin</a>
                                     <?php else : ?>
                                         <span class="btn-disabled">Superadmin</span>
                                     <?php endif; ?>
@@ -90,5 +90,18 @@
     </div>
 </div>
 <!-- main section ends-->
+
+<script>
+    function confirmDelete(url) {
+        // Display the confirmation popup
+        if (confirm("Are you sure you want to delete this admin?")) {
+            // If confirmed, redirect to the delete URL
+            window.location.href = url;
+        } else {
+            // If cancelled, do nothing
+            return false;
+        }
+    }
+</script>
 
 <?php include('partials/footer.php'); ?>

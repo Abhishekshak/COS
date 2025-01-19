@@ -34,7 +34,7 @@
                 <td>
                     <select name="a_role"> <!-- Updated form field name -->
                         <option value="admin">Admin</option>
-                        <option value="superadmin">Superadmin</option>
+                        <!-- <option value="superadmin">Superadmin</option> -->
                     </select>
                 </td>
             </tr>

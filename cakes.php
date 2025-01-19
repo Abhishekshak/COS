@@ -28,7 +28,7 @@
             <div class="cake-grid">
                 <?php
                     // Fetch cakes that are active to be displayed
-                    $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes'";
+                    $sql = "SELECT * FROM tbl_cake WHERE c_active = 'Yes' ORDER BY RAND()";
                     $res = mysqli_query($conn, $sql);
                     $count = mysqli_num_rows($res);
                     if ($count > 0) {

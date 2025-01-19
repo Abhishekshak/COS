@@ -90,7 +90,7 @@
                         <td><?php echo htmlspecialchars($c_active); ?></td>
                         <td>
                             <a href="<?php echo HOMEURL;?>admin/update-cake.php?c_id=<?php echo $c_id; ?>" class="btn-secondary">Update Cake</a>
-                            <a href="<?php echo HOMEURL;?>admin/delete-cake.php?c_id=<?php echo $c_id; ?>&c_image_name=<?php echo $c_image_name; ?>" class="btn-danger">Delete Cake</a>
+                            <a href="#" onclick="confirmDelete('<?php echo HOMEURL; ?>admin/delete-cake.php?c_id=<?php echo $c_id; ?>&c_image_name=<?php echo $c_image_name; ?>')" class="btn-danger">Delete Cake</a>
                         </td>
                     </tr>
                     <?php
@@ -104,5 +104,18 @@
     </div>
 </div>
 <!-- main section ends -->
+
+<script>
+    function confirmDelete(url) {
+        // Display the confirmation popup
+        if (confirm("Are you sure you want to delete this cake?")) {
+            // If confirmed, redirect to the delete URL
+            window.location.href = url;
+        } else {
+            // If cancelled, do nothing
+            return false;
+        }
+    }
+</script>
 
 <?php include('partials/footer.php'); ?>

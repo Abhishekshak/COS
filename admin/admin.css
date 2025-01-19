@@ -70,18 +70,25 @@ table tr td {
 }
 
 .btn-secondary {
-    background-color: #576574;
+    background-color: #4a90e2;
     padding: 10px 20px;
     color: white;
     text-decoration: none;
     font-weight: bold;
+    font-size: 16px; /* Explicitly set font size */
+    font-family: inherit; /* Ensure it inherits the font from the parent or global styles */
     border-radius: 5px;
     transition: background-color 0.3s;
+    border: none; /* Remove default border from buttons */
+    display: inline-block; /* Ensure <a> and <button> behave similarly */
+    text-align: center;
+    cursor: pointer;
 }
 
 .btn-secondary:hover {
-    background-color: #222f3e;
+    background-color: #357abd;
 }
+
 
 .btn-danger {
     background-color: #d9534f;
@@ -239,7 +246,7 @@ input::placeholder {
 }
 
 /* Status Badge */
-.badge {
+/* .badge {
     padding: 5px 10px;
     border-radius: 5px;
     color: white;
@@ -261,4 +268,95 @@ input::placeholder {
 
 .badge.cancelled {
     background-color: #d9534f;
+} */
+.main-content {
+    padding: 20px;
+    background: #9ed4c4;
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: #d4edda;
+    color: #155724;
+}
+
+.controls {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.controls input,
+.controls select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.controls input {
+    width: 300px;
+}
+
+.tbl-full {
+    width: 100%;
+    background: white;
+    border-radius: 8px;
+    border-collapse: collapse;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tbl-full th {
+    background: #f1f3f5;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    color: #333;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.tbl-full td {
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+.badge.pending { background: #fff3cd; color: #856404; }
+.badge.confirmed { background: #cce5ff; color: #004085; }
+.badge.delivering { background: #fff3e6; color: #804d00; }
+.badge.completed { background: #d4edda; color: #155724; }
+.badge.cancelled { background: #f8d7da; color: #721c24; }
+
+.order-details {
+    display: none;
+    padding: 15px;
+    background: #f8f9fa;
+    border-top: 1px solid #dee2e6;
+}
+
+.order-details.show {
+    display: table-row;
+}
+
+.detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.detail-item label {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 4px;
 }

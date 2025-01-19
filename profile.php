@@ -42,6 +42,7 @@ if (isset($_POST['submit'])) {
     $update_res = mysqli_query($conn, $update_sql);
 
     if ($update_res) {
+        $_SESSION['u_name'] = $username;
         $_SESSION['update'] = "<div class='success-msg'>Profile updated successfully!</div>";
     } else {
         $_SESSION['update'] = "<div class='error-msg'>Failed to update profile. Please try again.</div>";

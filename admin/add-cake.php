@@ -57,64 +57,61 @@
         </form>
 
         <?php
-        if (isset($_POST['submit'])) {
-            // 1. Get form data
-            $c_name = $_POST['c_name'];
-            $c_description = $_POST['c_description'];
-            $c_price = $_POST['c_price'];
+if (isset($_POST['submit'])) {
+    // 1. Get and sanitize form data
+    $c_name = mysqli_real_escape_string($conn, $_POST['c_name']);
+    $c_description = mysqli_real_escape_string($conn, $_POST['c_description']);
+    $c_price = mysqli_real_escape_string($conn, $_POST['c_price']);
 
-            $c_featured = isset($_POST['c_featured']) ? $_POST['c_featured'] : 'No';
-            $c_active = isset($_POST['c_active']) ? $_POST['c_active'] : 'No';
+    $c_featured = isset($_POST['c_featured']) ? $_POST['c_featured'] : 'No';
+    $c_active = isset($_POST['c_active']) ? $_POST['c_active'] : 'No';
 
-            // Validate form fields
-            if (empty($c_name) || empty($c_description) || empty($c_price)) {
-                $_SESSION['empty'] = "<div class='error'>Please fill in all required fields!</div>";
-            } else {
-                // 2. Handle image upload
-                if (isset($_FILES['c_image']['name'])) {
-                    $c_image_name = $_FILES['c_image']['name'];
-                    if ($c_image_name != "") {
-                        // Auto rename image
-                        $ext = end(explode('.', $c_image_name));
-                        $c_image_name = "Cake_Name_" . rand(000, 999) . '.' . $ext;
+    if (empty($c_name) || empty($c_description) || empty($c_price)) {
+        $_SESSION['empty'] = "<div class='error'>Please fill in all required fields!</div>";
+        header('location:' . HOMEURL . 'admin/add-cake.php');
+        exit;
+    }
 
-                        $source_path = $_FILES['c_image']['tmp_name'];
-                        $destination_path = "../img/cake/" . $c_image_name;
+    // 2. Handle image upload
+    $c_image_name = "";
+    if (isset($_FILES['c_image']['name']) && $_FILES['c_image']['name'] != "") {
+        $c_image_name = $_FILES['c_image']['name'];
+        $ext = pathinfo($c_image_name, PATHINFO_EXTENSION);
+        $c_image_name = "Cake_Name_" . rand(000, 999) . '.' . $ext;
 
-                        $upload = move_uploaded_file($source_path, $destination_path);
+        $source_path = $_FILES['c_image']['tmp_name'];
+        $destination_path = "../img/cake/" . $c_image_name;
 
-                        if ($upload == false) {
-                            $_SESSION['upload'] = "<div class='error'>Failed to Upload Image.</div>";
-                            header('location:' . HOMEURL . 'admin/add-cake.php');
-                            die();
-                        }
-                    }
-                } else {
-                    $c_image_name = "";
-                }
+        $upload = move_uploaded_file($source_path, $destination_path);
 
-                // 3. Insert into database
-                $sql2 = "INSERT INTO tbl_cake SET
-                    c_name = '$c_name',
-                    c_description = '$c_description',
-                    c_price = $c_price,
-                    c_image_name = '$c_image_name',
-                    c_featured = '$c_featured',
-                    c_active = '$c_active'";
-
-                $res2 = mysqli_query($conn, $sql2);
-
-                // 4. Redirect to Manage Cake with session message
-                if ($res2 == true) {
-                    $_SESSION['add'] = "<div class='success'>Cake Added Successfully.</div>";
-                    header('location:' . HOMEURL . 'admin/manage-cake.php');
-                } else {
-                    $_SESSION['add'] = "<div class='error'>Failed to Add Cake.</div>";
-                    header('location:' . HOMEURL . 'admin/manage-cake.php');
-                }
-            }
+        if (!$upload) {
+            $_SESSION['upload'] = "<div class='error'>Failed to Upload Image.</div>";
+            header('location:' . HOMEURL . 'admin/add-cake.php');
+            exit;
         }
-        ?>
+    }
+
+    // 3. Insert sanitized data into database
+    $sql2 = "INSERT INTO tbl_cake SET
+        c_name = '$c_name',
+        c_description = '$c_description',
+        c_price = $c_price,
+        c_image_name = '$c_image_name',
+        c_featured = '$c_featured',
+        c_active = '$c_active'";
+
+    $res2 = mysqli_query($conn, $sql2);
+
+    // 4. Redirect with a session message
+    if ($res2) {
+        $_SESSION['add'] = "<div class='success'>Cake Added Successfully.</div>";
+    } else {
+        $_SESSION['add'] = "<div class='error'>Failed to Add Cake.</div>";
+    }
+    header('location:' . HOMEURL . 'admin/manage-cake.php');
+}
+?>
+
     </div>
 </div>
 
