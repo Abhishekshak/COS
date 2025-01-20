@@ -69,40 +69,40 @@ table tr td {
     background-color: #341f97;
 }
 
-.btn-secondary {
-    background-color: #4a90e2;
+/* Common styles for action buttons */
+.btn-secondary, .btn-danger {
     padding: 10px 20px;
     color: white;
     text-decoration: none;
     font-weight: bold;
-    font-size: 16px; /* Explicitly set font size */
-    font-family: inherit; /* Ensure it inherits the font from the parent or global styles */
+    font-size: 16px; /* Same font size for both buttons */
+    font-family: inherit; /* Inherit font from parent styles */
     border-radius: 5px;
     transition: background-color 0.3s;
-    border: none; /* Remove default border from buttons */
-    display: inline-block; /* Ensure <a> and <button> behave similarly */
+    border: none; /* Remove default border */
+    display: inline-block; /* Ensure both buttons align properly */
     text-align: center;
     cursor: pointer;
+}
+
+/* .btn-secondary specific styles */
+.btn-secondary {
+    background-color: #4a90e2;
 }
 
 .btn-secondary:hover {
     background-color: #357abd;
 }
 
-
+/* .btn-danger specific styles */
 .btn-danger {
     background-color: #d9534f;
-    padding: 10px 20px;
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: background-color 0.3s;
 }
 
 .btn-danger:hover {
     background-color: #c9302c;
 }
+
 
 .btn-disabled {
     background-color: #717171;
@@ -359,4 +359,13 @@ input::placeholder {
     font-weight: 600;
     display: block;
     margin-bottom: 4px;
+}
+.deleted-user {
+    color: red;
+    font-weight: bold;
+}
+
+.active-user {
+    color: green;
+    font-weight: bold;
 }

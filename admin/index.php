@@ -1,9 +1,7 @@
-
 <?php include ('partials/menu.php');
 
-
-// Fetch number of users
-$query_users = "SELECT COUNT(*) AS total_users FROM tbl_users";
+// Fetch number of active users (excluding deleted users)
+$query_users = "SELECT COUNT(*) AS total_users FROM tbl_users WHERE is_deleted = 0";
 $result_users = mysqli_query($conn, $query_users);
 $data_users = mysqli_fetch_assoc($result_users);
 $total_users = $data_users['total_users'];
@@ -21,14 +19,12 @@ $data_orders = mysqli_fetch_assoc($result_orders);
 $total_orders = $data_orders['total_orders'];
 
 // Fetch total income (assuming you store price in the orders table)
-$query_income = "SELECT SUM(o_total) AS total_income FROM tbl_order"; // Assuming 'price' column stores the order price
+$query_income = "SELECT SUM(o_total) AS total_income FROM tbl_order"; // Assuming 'o_total' column stores the order price
 $result_income = mysqli_query($conn, $query_income);
 $data_income = mysqli_fetch_assoc($result_income);
 $total_income = $data_income['total_income'];
 
 ?>
-
-
 
 <!-- main section starts-->
 <div class="main-content">
@@ -45,7 +41,7 @@ $total_income = $data_income['total_income'];
         <div class="col-4 text-center">
             <h1><?php echo $total_users; ?></h1>
             <br>
-            Users
+            Active Users
         </div>
         <div class="col-4 text-center">
             <h1><?php echo $total_cakes; ?></h1>

@@ -56,7 +56,7 @@
 
             <?php
             // SQL query to retrieve all cake details
-            $sql = "SELECT * FROM tbl_cake";
+            $sql = "SELECT * FROM tbl_cake ORDER BY c_id DESC";  // Ordering by c_id in descending order
             $res = mysqli_query($conn, $sql);
             $count = mysqli_num_rows($res);
 

@@ -1,4 +1,6 @@
-<?php include('config/constants.php'); ?>
+<?php 
+include('config/constants.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +38,8 @@
             <i class="fas fa-lock"></i>
             <input type="password" name="password" placeholder="Password" required>
         </div>
+        <!-- <a href="forgot-password.php" style="color: #007b5e;">Forgot Password?</a>
+        <br> -->
         <input class="btn" name="submit" type="submit" value="LOGIN">
     </form>
 
@@ -58,8 +62,8 @@
         // MD5 hashing for the password
         $hashed_password = md5($password);
 
-        // Check if email and password match any record in the database
-        $sql = "SELECT * FROM tbl_users WHERE u_email='$email' AND u_password='$hashed_password'";
+        // Check if email and password match any record in the database and if the user is not deleted
+        $sql = "SELECT * FROM tbl_users WHERE u_email='$email' AND u_password='$hashed_password' AND is_deleted=0";
         $res = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($res) > 0) {
@@ -72,7 +76,7 @@
             header('Location: index.php');
             exit;
         } else {
-            // Login failed, show error
+            // Login failed, show error (invalid credentials or user is deleted)
             echo "<script>showPopup('Invalid email or password. Please try again.');</script>";
         }
     }

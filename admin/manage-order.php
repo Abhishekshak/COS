@@ -1,6 +1,5 @@
 <?php include('partials/menu.php'); ?>
 
-
 <div class="main-content">
     <div class="wrapper">
         <h1>Manage Orders</h1>
@@ -23,6 +22,10 @@
                 <option value="delivered">Delivered</option>
                 <option value="cancelled">Cancelled</option>
             </select>
+            <select id="userStatusFilter">
+                <option value="">All Users</option>
+                <option value="deleted">Deleted Users</option>
+            </select>
         </div>
 
         <table class="tbl-full">
@@ -36,67 +39,68 @@
                 <th>Actions</th>
             </tr>
             <?php
-     $sql = "SELECT o.*, u.u_name, u.u_email, u.u_contact, c.c_name 
-     FROM tbl_order o 
-     JOIN tbl_users u ON o.u_id = u.u_id 
-     JOIN tbl_cake c ON o.c_id = c.c_id 
-     ORDER BY o.o_id DESC";
+                $sql = "SELECT o.*, u.u_name, u.u_email, u.u_contact, u.is_deleted, c.c_name 
+                        FROM tbl_order o 
+                        JOIN tbl_users u ON o.u_id = u.u_id 
+                        JOIN tbl_cake c ON o.c_id = c.c_id 
+                        ORDER BY o.o_id DESC";
 
-                    
-            
-            $res = mysqli_query($conn, $sql);
-            
-            if ($res == TRUE) {
-                $count = mysqli_num_rows($res);
-                if ($count > 0) {
-                    while ($row = mysqli_fetch_assoc($res)) {
-                        $o_id = $row['o_id'];
+                $res = mysqli_query($conn, $sql);
+                
+                if ($res == TRUE) {
+                    $count = mysqli_num_rows($res);
+                    if ($count > 0) {
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            $o_id = $row['o_id'];
             ?>
-                        <tr class="order-row">
-                            <td>#<?php echo $o_id; ?></td>
-                            <td>
-                                <strong><?php echo $row['u_name']; ?></strong><br>
-                                <small><?php echo $row['u_contact']; ?></small>
-                            </td>
-                            <td>
-                                <?php echo $row['c_name']; ?><br>
-                                <small>Qty: <?php echo $row['o_quantity']; ?></small>
-                            </td>
-                            <td>
-                                <?php echo $row['o_delivery_location']; ?><br>
-                                <small><?php echo date('d M Y', strtotime($row['o_delivery_date'])); ?></small>
-                            </td>
-                            <td>Rs. <?php echo number_format($row['o_total']); ?></td>
-                            <td>
-                                <span class="badge <?php echo strtolower($row['o_status']); ?>">
-                                    <?php echo ucfirst($row['o_status']); ?>
-                                </span>
-                            </td>
-                            <td>
-                                <a href="update-order.php?o_id=<?php echo $o_id; ?>" class="btn-secondary">Update</a>
-                                <button onclick="toggleDetails('<?php echo $o_id; ?>')" class="btn-secondary">Details</button>
-                            </td>
-                        </tr>
-                        <tr id="details-<?php echo $o_id; ?>" class="order-details">
-                            <td colspan="7">
-                                <div class="detail-grid">
-                                    <div class="detail-item">
-                                        <label>Customer Email:</label>
-                                        <?php echo $row['u_email']; ?>
+                            <tr class="order-row">
+                                <td>#<?php echo $o_id; ?></td>
+                                <td>
+                                    <strong><?php echo $row['u_name']; ?></strong><br>
+                                    <small><?php echo $row['u_contact']; ?></small><br>
+                                    <?php if ($row['is_deleted'] == 1) { ?>
+                                        <span class="deleted-user">(User Deleted)</span>
+                                    <?php } ?>
+                                </td>
+                                <td>
+                                    <?php echo $row['c_name']; ?><br>
+                                    <small>Qty: <?php echo $row['o_quantity']; ?></small>
+                                </td>
+                                <td>
+                                    <?php echo $row['o_delivery_location']; ?><br>
+                                    <small><?php echo date('d M Y', strtotime($row['o_delivery_date'])); ?></small>
+                                </td>
+                                <td>Rs. <?php echo number_format($row['o_total']); ?></td>
+                                <td>
+                                    <span class="badge <?php echo strtolower($row['o_status']); ?>">
+                                        <?php echo ucfirst($row['o_status']); ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="update-order.php?o_id=<?php echo $o_id; ?>" class="btn-secondary">Update</a>
+                                    <button onclick="toggleDetails('<?php echo $o_id; ?>')" class="btn-secondary">Details</button>
+                                </td>
+                            </tr>
+                            <tr id="details-<?php echo $o_id; ?>" class="order-details">
+                                <td colspan="7">
+                                    <div class="detail-grid">
+                                        <div class="detail-item">
+                                            <label>Customer Email:</label>
+                                            <?php echo $row['u_email']; ?>
+                                        </div>
+                                        <div class="detail-item">
+                                            <label>Special Instructions:</label>
+                                            <?php echo $row['o_special_instructions'] ?? 'None'; ?>
+                                        </div>
                                     </div>
-                                    <div class="detail-item">
-                                        <label>Special Instructions:</label>
-                                        <?php echo $row['o_special_instructions'] ?? 'None'; ?>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
             <?php
+                        }
+                    } else {
+                        echo "<tr><td colspan='7' style='text-align: center;'>No Orders Found</td></tr>";
                     }
-                } else {
-                    echo "<tr><td colspan='7' style='text-align: center;'>No Orders Found</td></tr>";
                 }
-            }
             ?>
         </table>
     </div>
@@ -105,20 +109,24 @@
 <script>
 document.getElementById('searchInput').addEventListener('keyup', filterOrders);
 document.getElementById('statusFilter').addEventListener('change', filterOrders);
+document.getElementById('userStatusFilter').addEventListener('change', filterOrders);
 
 function filterOrders() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const status = document.getElementById('statusFilter').value.toLowerCase();
+    const userStatus = document.getElementById('userStatusFilter').value.toLowerCase();
     const rows = document.getElementsByClassName('order-row');
 
     for (let row of rows) {
         const text = row.textContent.toLowerCase();
         const statusBadge = row.querySelector('.badge').textContent.toLowerCase();
+        const userDeleted = row.querySelector('.deleted-user') !== null;
         
         const matchesSearch = text.includes(search);
         const matchesStatus = status === '' || statusBadge.includes(status);
-        
-        row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+        const matchesUserStatus = userStatus === '' || (userStatus === 'deleted' && userDeleted);
+
+        row.style.display = matchesSearch && matchesStatus && matchesUserStatus ? '' : 'none';
         
         const detailsRow = row.nextElementSibling;
         if (detailsRow && detailsRow.classList.contains('order-details')) {

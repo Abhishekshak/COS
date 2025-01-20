@@ -56,7 +56,7 @@
 
             // Redirect based on role
             if ($role == 'superadmin') {
-                header('location:'.HOMEURL.'admin/manage-admin.php'); // Superadmin redirects to manage-admin
+                header('location:'.HOMEURL.'admin/index.php'); // Superadmin redirects to manage-admin
             } else {
                 header('location:'.HOMEURL.'admin/'); // Normal admin redirects to dashboard
             }
